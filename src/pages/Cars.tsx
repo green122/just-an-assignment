@@ -5,7 +5,7 @@ import {carsFixture} from "../components/carsFixture";
 export function Cars() {
   return (
     <div>
-      <CarsList list={carsFixture}/>
+      <CarsList list={carsFixture} page={1} onPageSelect={console.log}/>
     </div>
   );
 };
