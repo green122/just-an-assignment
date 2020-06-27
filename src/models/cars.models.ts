@@ -18,3 +18,13 @@ export interface CarsListDTO {
   totalPageCount: number;
   totalCarsCount: number;
 }
+
+
+export interface Model {
+  name: string;
+}
+
+export interface ManufacturerDTO {
+  name: string;
+  models: Model[];
+}

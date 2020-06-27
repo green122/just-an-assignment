@@ -37,14 +37,30 @@ async function fetchCars(): Promise<CarsListDTO> {
   return result.data;
 }
 
+async function fetchManufacturersAndColors() {
+  const [manufacturersResponse, colorsResponse] = await Promise.all([
+    axios.get('https://auto1-mock-server.herokuapp.com/api/manufacturers'),
+    axios.get('https://auto1-mock-server.herokuapp.com/api/colors'),
+  ]);
+  return {manufacturers: manufacturersResponse.data.manufacturers, colors: colorsResponse.data.colors}
+}
+
 export function Cars() {
   const [state, dispatch] = useReducer(carsReducer, initialState);
 
   const carsState = useFetching(async () => {
     const result = await fetchCars();
     dispatch({type: 'SET_CARS', payload: result})
+    return result;
   }, null, []);
 
+  const manufacturersAndColors = useFetching(async () => {
+      const result = await fetchManufacturersAndColors();
+      return result;
+    }, null, []
+  );
+
+  console.log(manufacturersAndColors);
   if (carsState.isLoading || carsState.error) {
     return null;
   }
