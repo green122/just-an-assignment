@@ -1,9 +1,14 @@
-import React, {useReducer} from 'react'
-import {render, fireEvent} from '@testing-library/react'
+import React, {useReducer} from 'react';
+import axios from 'axios';
 import {renderHook, act} from '@testing-library/react-hooks'
 import '@testing-library/jest-dom/extend-expect'
-import {CarsListDTO} from "../models/cars.models";
-import {carsReducer, initialState} from "./Cars";
+import {Cars, carsReducer, initialState} from "./Cars";
+import {render, waitFor} from "@testing-library/react";
+import {carsFixture} from "../components/carsFixture";
+import {CarsList} from "../components/CarsList";
+
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('Cars reducer', () => {
   it('should change current page', () => {
@@ -39,6 +44,17 @@ describe('Cars reducer', () => {
     expect(anotherState.selectedManufacturer).toBe('Fiat');
     expect(anotherState.selectedColor).toBe('white');
   });
+});
+
+
+describe.skip('Cars component', () => {
+  it('should request data from backend and set them to store', async () => {
+    mockedAxios.get.mockImplementationOnce(() => Promise.resolve({data: carsFixture}));
+    const {queryAllByTestId} = render(<Cars/>)
+    const result = queryAllByTestId('car-item');
+    await waitFor(() => expect(queryAllByTestId('car-item').length).toBeGreaterThan(0));
+    console.log(result);
+  })
 })
 
 

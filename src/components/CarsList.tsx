@@ -1,28 +1,25 @@
 import React, {useCallback} from 'react';
-import {CarsListDTO} from "../models/cars.models";
+import {CarDTO, CarsListDTO} from "../models/cars.models";
 import {List} from "@material-ui/core";
 import Pagination from '@material-ui/lab/Pagination';
 import {CarsItem} from "./CarItem";
 
 interface CarsListProps {
-  list: CarsListDTO;
-  page: number;
+  list: CarDTO[];
+  page: number
+  totalPageCount: number;
   onPageSelect: (value: number) => void;
 }
 
-export function CarsList({list, page, onPageSelect}: CarsListProps) {
+export function CarsList({list, page, totalPageCount, onPageSelect}: CarsListProps) {
   const handleChange = useCallback((_, selectedPage: number) => onPageSelect(selectedPage), [onPageSelect]);
-
-  if (!list?.cars?.length) {
-    return null;
-  }
 
   return (
     <List>
-      {list.cars.map(carRow => (
+      {list.map(carRow => (
         <CarsItem car={carRow} key={carRow.stockNumber}/>
       ))}
-      <Pagination count={list.totalPageCount} page={page} onChange={handleChange} showFirstButton showLastButton/>
+      <Pagination count={totalPageCount} page={page} onChange={handleChange} showFirstButton showLastButton/>
     </List>
   );
 };

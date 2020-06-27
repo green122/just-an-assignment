@@ -1,4 +1,4 @@
-import {CarDTO} from "./cars.models";
+import {CarDTO, CarsListDTO} from "./cars.models";
 
 export type ActionType = 'SET_PAGE' | 'SET_FILTER';
 
@@ -13,11 +13,14 @@ export type Action = {
 } | {
   type: 'SET_FILTER',
   payload: SetFilter
+} | {
+  type: 'SET_CARS',
+  payload: CarsListDTO
 }
 
 export interface CarsState {
   currentPage: number;
-  totalPageNumber: number;
+  totalPageCount: number;
   cars: CarDTO[];
   selectedManufacturer: string;
   selectedColor: string;
