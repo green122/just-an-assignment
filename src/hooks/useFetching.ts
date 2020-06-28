@@ -1,7 +1,7 @@
 import {useEffect, useReducer} from "react";
 
 interface IFetchState<T> {
-  data?: T,
+  data: T,
   isLoading: boolean,
   error?: string
 }

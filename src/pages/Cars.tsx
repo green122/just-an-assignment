@@ -5,6 +5,7 @@ import {carsFixture} from "../components/carsFixture";
 import {Action, CarsState} from "../models/store.model";
 import {useFetching} from "../hooks/useFetching";
 import {CarDTO, CarsListDTO} from "../models/cars.models";
+import {Filters} from "../components/Filters";
 
 export function carsReducer(state: CarsState, action: Action): CarsState {
   switch (action.type) {
@@ -57,7 +58,7 @@ export function Cars() {
   const manufacturersAndColors = useFetching(async () => {
       const result = await fetchManufacturersAndColors();
       return result;
-    }, null, []
+    }, {manufacturers: [], colors: []}, []
   );
 
   console.log(manufacturersAndColors);
@@ -66,6 +67,8 @@ export function Cars() {
   }
   return (
     <div>
+      <Filters manufacturers={manufacturersAndColors.data.manufacturers} colors={manufacturersAndColors.data.colors}
+               onSelect={console.log}/>
       <CarsList list={state.cars} page={state.currentPage} totalPageCount={state.totalPageCount}
                 onPageSelect={(pageNumber) => dispatch({type: 'SET_PAGE', payload: pageNumber})}/>
     </div>
