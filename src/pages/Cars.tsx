@@ -1,11 +1,12 @@
 import React, {useReducer, useState} from 'react';
 import axios from 'axios';
 import {CarsList} from "../components/CarsList";
-import {carsFixture} from "../components/carsFixture";
 import {Action, CarsState} from "../models/store.model";
 import {useFetching} from "../hooks/useFetching";
 import {CarDTO, CarsListDTO} from "../models/cars.models";
 import {Filters} from "../components/Filters";
+import {FilterState} from "../models/filters.model";
+import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
 
 export function carsReducer(state: CarsState, action: Action): CarsState {
   switch (action.type) {
@@ -13,12 +14,11 @@ export function carsReducer(state: CarsState, action: Action): CarsState {
       return {...state, currentPage: action.payload};
       break;
     case "SET_FILTER":
-      const field = action.payload.filterType === 'manufacturer' ? 'selectedManufacturer' : 'selectedColor';
-      return {...state, [field]: action.payload.value};
+      return {...state, filters: action.payload};
       break;
     case "SET_CARS":
       const {cars, totalPageCount} = action.payload;
-      return {...state, cars, totalPageCount};
+      return {...state, cars, totalPageCount, currentPage: 1};
       break;
     default:
       return state;
@@ -29,12 +29,11 @@ export const initialState: CarsState = {
   cars: [],
   totalPageCount: 0,
   currentPage: 1,
-  selectedColor: '',
-  selectedManufacturer: ''
+  filters: {manufacturer: '', color: ''}
 }
 
-async function fetchCars(): Promise<CarsListDTO> {
-  const result = await axios.get<CarsListDTO>('https://auto1-mock-server.herokuapp.com/api/cars');
+async function fetchCars(filters: FilterState): Promise<CarsListDTO> {
+  const result = await axios.get<CarsListDTO>('https://auto1-mock-server.herokuapp.com/api/cars', {params: removeEmptyProperties(filters)});
   return result.data;
 }
 
@@ -50,10 +49,10 @@ export function Cars() {
   const [state, dispatch] = useReducer(carsReducer, initialState);
 
   const carsState = useFetching(async () => {
-    const result = await fetchCars();
+    const result = await fetchCars(state.filters);
     dispatch({type: 'SET_CARS', payload: result})
     return result;
-  }, null, []);
+  }, null, [state.filters]);
 
   const manufacturersAndColors = useFetching(async () => {
       const result = await fetchManufacturersAndColors();
@@ -62,13 +61,10 @@ export function Cars() {
   );
 
   console.log(manufacturersAndColors);
-  if (carsState.isLoading || carsState.error) {
-    return null;
-  }
   return (
     <div>
       <Filters manufacturers={manufacturersAndColors.data.manufacturers} colors={manufacturersAndColors.data.colors}
-               onSelect={console.log}/>
+               onSelect={filters => dispatch({type: 'SET_FILTER', payload: filters})}/>
       <CarsList list={state.cars} page={state.currentPage} totalPageCount={state.totalPageCount}
                 onPageSelect={(pageNumber) => dispatch({type: 'SET_PAGE', payload: pageNumber})}/>
     </div>

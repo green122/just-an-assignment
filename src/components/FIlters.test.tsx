@@ -1,9 +1,7 @@
 import React from 'react'
 import {render, fireEvent, within, act} from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import {CarsList} from "./CarsList";
-import {carsFixture} from "./carsFixture";
-import {CarDTO, CarsListDTO, ManufacturerDTO} from "../models/cars.models";
+import {ManufacturerDTO} from "../models/cars.models";
 import {Filters} from "./Filters";
 
 const manufacturersFixture = [{
@@ -90,7 +88,7 @@ describe('Filters component', () => {
         fireEvent.click(listbox.getByText(/white/i))
       }
     );
-    
+
     act(() => {
       fireEvent.click(getByText('Filter'));
     });

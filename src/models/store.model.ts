@@ -1,4 +1,5 @@
 import {CarDTO, CarsListDTO} from "./cars.models";
+import {FilterState} from "./filters.model";
 
 export type ActionType = 'SET_PAGE' | 'SET_FILTER';
 
@@ -12,7 +13,7 @@ export type Action = {
   payload: number;
 } | {
   type: 'SET_FILTER',
-  payload: SetFilter
+  payload: FilterState
 } | {
   type: 'SET_CARS',
   payload: CarsListDTO
@@ -22,6 +23,5 @@ export interface CarsState {
   currentPage: number;
   totalPageCount: number;
   cars: CarDTO[];
-  selectedManufacturer: string;
-  selectedColor: string;
+  filters: FilterState;
 }

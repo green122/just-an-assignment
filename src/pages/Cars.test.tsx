@@ -29,20 +29,20 @@ describe('Cars reducer', () => {
 
     act(() => {
       dispatch({type: 'SET_PAGE', payload: 5});
-      dispatch({type: 'SET_FILTER', payload: {filterType: 'manufacturer', value: 'Fiat'}});
+      dispatch({type: 'SET_FILTER', payload: {manufacturer: 'Fiat', color: 'white'}});
     });
 
     const [newState] = result.current;
-    expect(newState.selectedManufacturer).toBe('Fiat');
+    expect(newState.filters.manufacturer).toBe('Fiat');
     expect(newState.currentPage).toBe(5);
 
     act(() => {
-      dispatch({type: 'SET_FILTER', payload: {filterType: 'color', value: 'white'}});
+      dispatch({type: 'SET_FILTER', payload: {manufacturer: '', color: 'yellow'}});
     });
 
     const [anotherState] = result.current;
-    expect(anotherState.selectedManufacturer).toBe('Fiat');
-    expect(anotherState.selectedColor).toBe('white');
+    expect(anotherState.filters.manufacturer).toBe('');
+    expect(anotherState.filters.color).toBe('yellow');
   });
 });
 
