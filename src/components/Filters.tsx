@@ -11,6 +11,10 @@ interface FiltersProps {
 }
 
 const useStyles = makeStyles(() => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
   selector: {
     margin: 10,
     minWidth: 120,
@@ -35,7 +39,7 @@ export function Filters({manufacturers = [], colors = [], onSelect}: FiltersProp
   };
 
   return (
-    <form>
+    <div className={classes.container}>
       <Select value={filter.manufacturer} autoWidth={true} className={classes.selector}
               data-testid="manufacturers"
               onChange={event => handleSelect(event, 'manufacturer')}>
@@ -51,6 +55,6 @@ export function Filters({manufacturers = [], colors = [], onSelect}: FiltersProp
           <MenuItem key={index} value={color}>{color}</MenuItem>))}
       </Select>
       <Button onClick={handleSubmit}>Filter</Button>
-    </form>
+    </div>
   );
 };

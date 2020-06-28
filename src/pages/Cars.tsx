@@ -7,6 +7,7 @@ import {CarDTO, CarsListDTO} from "../models/cars.models";
 import {Filters} from "../components/Filters";
 import {FilterState} from "../models/filters.model";
 import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
+import {Grid} from "@material-ui/core";
 
 export function carsReducer(state: CarsState, action: Action): CarsState {
   switch (action.type) {
@@ -63,10 +64,16 @@ export function Cars() {
   console.log(manufacturersAndColors);
   return (
     <div>
-      <Filters manufacturers={manufacturersAndColors.data.manufacturers} colors={manufacturersAndColors.data.colors}
-               onSelect={filters => dispatch({type: 'SET_FILTER', payload: filters})}/>
-      <CarsList list={state.cars} page={state.currentPage} totalPageCount={state.totalPageCount}
-                onPageSelect={(pageNumber) => dispatch({type: 'SET_PAGE', payload: pageNumber})}/>
+      <Grid container spacing={3}>
+        <Grid item sm={3}>
+          <Filters manufacturers={manufacturersAndColors.data.manufacturers} colors={manufacturersAndColors.data.colors}
+                   onSelect={filters => dispatch({type: 'SET_FILTER', payload: filters})}/>
+        </Grid>
+        <Grid item sm={8}>
+          <CarsList list={state.cars} page={state.currentPage} totalPageCount={state.totalPageCount}
+                    onPageSelect={(pageNumber) => dispatch({type: 'SET_PAGE', payload: pageNumber})}/>
+        </Grid>
+      </Grid>
     </div>
   );
 };
