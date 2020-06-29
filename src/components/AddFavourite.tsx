@@ -15,7 +15,7 @@ export function AddFavourite({stockNumber}: AddFavouriteProps) {
     <div className={classes.container}>
       If you like this car, click the button and save it in your collection of favourite items.
       <Button className={classes.button} onClick={() => setFavorite(stockNumber)} disabled={isFavoriteLoading}>
-        {isFavourite(stockNumber) ? 'Remove from favourite' : 'Save to favorite'}
+        {isFavourite(stockNumber) ? 'Remove' : 'Save'}
       </Button>
     </div>
   );
