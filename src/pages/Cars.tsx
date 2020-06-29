@@ -8,6 +8,7 @@ import {Filters} from "../components/Filters";
 import {FilterState} from "../models/filters.model";
 import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
 import {Grid} from "@material-ui/core";
+import {useFavorite} from "../hooks/useFavoutire";
 
 export function carsReducer(state: CarsState, action: Action): CarsState {
   switch (action.type) {
@@ -49,6 +50,7 @@ async function fetchManufacturersAndColors() {
 export function Cars() {
   const [state, dispatch] = useReducer(carsReducer, initialState);
 
+  const {setFavorite, getFavorites} = useFavorite();
   const carsState = useFetching(async () => {
     const result = await fetchCars(state.filters);
     dispatch({type: 'SET_CARS', payload: result})
@@ -61,15 +63,14 @@ export function Cars() {
     }, {manufacturers: [], colors: []}, []
   );
 
-  console.log(manufacturersAndColors);
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item sm={3}>
+        <Grid item sm={4} xs={12}>
           <Filters manufacturers={manufacturersAndColors.data.manufacturers} colors={manufacturersAndColors.data.colors}
                    onSelect={filters => dispatch({type: 'SET_FILTER', payload: filters})}/>
         </Grid>
-        <Grid item sm={8}>
+        <Grid item sm={8} xs={12}>
           <CarsList list={state.cars} page={state.currentPage} totalPageCount={state.totalPageCount}
                     onPageSelect={(pageNumber) => dispatch({type: 'SET_PAGE', payload: pageNumber})}/>
         </Grid>

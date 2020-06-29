@@ -5,7 +5,6 @@ import '@testing-library/jest-dom/extend-expect'
 import {Cars, carsReducer, initialState} from "./Cars";
 import {render, waitFor} from "@testing-library/react";
 import {carsFixture} from "../components/carsFixture";
-import {CarsList} from "../components/CarsList";
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
