@@ -1,43 +1,17 @@
-import React, {useReducer, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import axios from 'axios';
 import {CarsList} from "../components/CarsList";
-import {Action, CarsState} from "../models/store.model";
+import {Action, GlobalState} from "../models/store.model";
 import {useFetching} from "../hooks/useFetching";
 import {CarDTO, CarsListDTO} from "../models/cars.models";
 import {Filters} from "../components/Filters";
 import {FilterState} from "../models/filters.model";
 import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
-import {Grid} from "@material-ui/core";
+import {Container, Grid, Typography} from "@material-ui/core";
 import {useFavorite} from "../hooks/useFavoutire";
+import {useDispatch, useSelector} from "../hooks/useStore";
+import {carsRoute} from "../constants/apiRoutes.constants";
 
-export function carsReducer(state: CarsState, action: Action): CarsState {
-  switch (action.type) {
-    case "SET_PAGE":
-      return {...state, currentPage: action.payload};
-      break;
-    case "SET_FILTER":
-      return {...state, filters: action.payload};
-      break;
-    case "SET_CARS":
-      const {cars, totalPageCount} = action.payload;
-      return {...state, cars, totalPageCount, currentPage: 1};
-      break;
-    default:
-      return state;
-  }
-}
-
-export const initialState: CarsState = {
-  cars: [],
-  totalPageCount: 0,
-  currentPage: 1,
-  filters: {manufacturer: '', color: ''}
-}
-
-async function fetchCars(filters: FilterState): Promise<CarsListDTO> {
-  const result = await axios.get<CarsListDTO>('https://auto1-mock-server.herokuapp.com/api/cars', {params: removeEmptyProperties(filters)});
-  return result.data;
-}
 
 async function fetchManufacturersAndColors() {
   const [manufacturersResponse, colorsResponse] = await Promise.all([
@@ -48,14 +22,33 @@ async function fetchManufacturersAndColors() {
 }
 
 export function Cars() {
-  const [state, dispatch] = useReducer(carsReducer, initialState);
+  const dispatch = useDispatch();
+  console.log(useSelector(state => state));
+  const filters = useSelector(state => state.filters);
+  const currentPage = useSelector(state => state.currentPage);
+  const totalPageCount = useSelector(state => state.totalPageCount);
+  const totalCarsCount = useSelector(state => state.totalCarsCount);
+  const cars = useSelector(state => state.cars);
 
   const {setFavorite, getFavorites} = useFavorite();
-  const carsState = useFetching(async () => {
-    const result = await fetchCars(state.filters);
-    dispatch({type: 'SET_CARS', payload: result})
-    return result;
-  }, null, [state.filters]);
+
+  async function fetchCars(): Promise<CarsListDTO> {
+    const {data} = await axios.get<CarsListDTO>(carsRoute, {
+      params: {
+        ...removeEmptyProperties(filters),
+        page: currentPage
+      }
+    });
+    dispatch({type: 'SET_CARS', payload: data})
+    return data;
+  }
+
+  const carsState = useFetching(() => {
+    if (cars.length) {
+      return null;
+    }
+    return fetchCars();
+  }, null, [filters, currentPage]);
 
   const manufacturersAndColors = useFetching(async () => {
       const result = await fetchManufacturersAndColors();
@@ -64,17 +57,24 @@ export function Cars() {
   );
 
   return (
-    <div>
+    <Container maxWidth="lg">
       <Grid container spacing={3}>
         <Grid item sm={4} xs={12}>
-          <Filters manufacturers={manufacturersAndColors.data.manufacturers} colors={manufacturersAndColors.data.colors}
+          <Filters initialFilters={filters} manufacturers={manufacturersAndColors.data.manufacturers}
+                   colors={manufacturersAndColors.data.colors}
                    onSelect={filters => dispatch({type: 'SET_FILTER', payload: filters})}/>
         </Grid>
         <Grid item sm={8} xs={12}>
-          <CarsList list={state.cars} page={state.currentPage} totalPageCount={state.totalPageCount}
+          <Typography variant="h6" gutterBottom>
+            Available cars
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Showing {totalCarsCount > 10 ? `10 of ${totalCarsCount}` : `${totalCarsCount}`} result
+          </Typography>
+          <CarsList list={cars} page={currentPage} totalPageCount={totalPageCount} isLoading={carsState.isLoading}
                     onPageSelect={(pageNumber) => dispatch({type: 'SET_PAGE', payload: pageNumber})}/>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 };

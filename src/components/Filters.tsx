@@ -8,6 +8,7 @@ import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 interface FiltersProps {
   manufacturers?: ManufacturerDTO[],
   colors?: string[],
+  initialFilters: FilterState,
   onSelect: (filterState: FilterState) => void;
 }
 
@@ -45,9 +46,9 @@ export const useCardStyles = makeStyles(() => ({
   }
 }));
 
-export function Filters({manufacturers = [], colors = [], onSelect}: FiltersProps) {
+export function Filters({manufacturers = [], colors = [], initialFilters, onSelect}: FiltersProps) {
 
-  const [filter, setFilter] = useState<FilterState>({manufacturer: 'all', color: 'all'});
+  const [filter, setFilter] = useState<FilterState>(initialFilters);
   const classes = useCardStyles();
 
   const handleSelect = useCallback((event: React.ChangeEvent<any>, field: keyof FilterState) => setFilter(prevState => ({
@@ -65,7 +66,7 @@ export function Filters({manufacturers = [], colors = [], onSelect}: FiltersProp
   return (
     <div className={classes.container}>
       <InputLabel className={classes.label}>Color</InputLabel>
-      <Select disableUnderline value={filter.color} autoWidth={true} className={classes.selector}
+      <Select disableUnderline value={filter.color || 'all'} autoWidth={true} className={classes.selector}
               data-testid="colors"
               onChange={event => handleSelect(event, 'color')}>
         <MenuItem key='all' value="all">All car colors</MenuItem>
@@ -73,7 +74,7 @@ export function Filters({manufacturers = [], colors = [], onSelect}: FiltersProp
           <MenuItem key={index} value={color}>{capitalizeFirstLetter(color)}</MenuItem>))}
       </Select>
       <InputLabel className={classes.label}>Manufacturer</InputLabel>
-      <Select disableUnderline value={filter.manufacturer} autoWidth={true} className={classes.selector}
+      <Select disableUnderline value={filter.manufacturer || 'all'} autoWidth={true} className={classes.selector}
               data-testid="manufacturers"
               onChange={event => handleSelect(event, 'manufacturer')}>
         <MenuItem key='all' value="all">All manufacturers</MenuItem>

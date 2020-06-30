@@ -30,7 +30,7 @@ const dataFetchReducer = <T>() => (state: IFetchState<T>, action: Action<T>): IF
   }
 };
 
-export function useFetching<T>(action: () => Promise<T>, initialValue: T, deps: any[] = []): IFetchState<T> {
+export function useFetching<T>(action: () => Promise<T> | null, initialValue: T, deps: any[] = []): IFetchState<T> {
 
   const initialState: IFetchState<T> = {data: initialValue, error: '', isLoading: false};
   const [state, dispatch] = useReducer(dataFetchReducer<T>(), initialState);

@@ -19,9 +19,10 @@ export type Action = {
   payload: CarsListDTO
 }
 
-export interface CarsState {
+export interface GlobalState {
   currentPage: number;
   totalPageCount: number;
+  totalCarsCount: number;
   cars: CarDTO[];
   filters: FilterState;
 }

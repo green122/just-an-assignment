@@ -5,12 +5,13 @@ import {Box, Button, Card, CardContent, CardMedia, List, ListItem, Typography} f
 import Link from '@material-ui/core/Link';
 import {makeStyles} from "@material-ui/core/styles";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
+import BrokenImagePicture from '../assets/broken-image.png'
 
 interface CarsItemProps {
   car: CarDTO
 }
 
-const useStyles = makeStyles({
+export const useStyles = makeStyles({
   root: {
     display: "flex",
     marginBottom: 12,
@@ -46,9 +47,24 @@ const useStyles = makeStyles({
     display: "flex",
     width: 60,
     alignItems: "center",
+    backgroundColor: "#EDEDED",
+  },
+  cardImage: {
+    width: "100%",
+    height: "auto",
+    "&:before": {
+      display: "block",
+      position: "absolute",
+      height: 50,
+      width: 50,
+      backgroundImage: BrokenImagePicture
+    }
   }
 });
 
+function getFallbackImage(ev: React.SyntheticEvent<HTMLImageElement, Event>) {
+  (ev.target as HTMLImageElement).src = BrokenImagePicture;
+}
 
 export function CarsItem({car}: CarsItemProps) {
   const classes = useStyles();
@@ -59,10 +75,8 @@ export function CarsItem({car}: CarsItemProps) {
     <Card className={classes.root} data-testid="car-item" variant="outlined" color="text.primary">
       <CardContent className={classes.cardContentImage}>
         <CardMedia
-          component="img"
+          component={() => (<img onError={getFallbackImage} className={classes.cardImage} src={car.pictureUrl}/>)}
           className={classes.picture}
-          image={car.pictureUrl}
-          title="Contemplative Reptile"
         />
       </CardContent>
 
