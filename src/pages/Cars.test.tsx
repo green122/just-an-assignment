@@ -9,7 +9,7 @@ import {container, globalReducer, initialState, StoreContext} from "../App";
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('Cars component', () => {
+describe.skip('Cars component', () => {
   it('should request data from backend and set them to store', async () => {
     mockedAxios.get.mockImplementationOnce((request: string) => {
       if (request.includes('colors') || request.includes('manufacturers')) {
@@ -25,7 +25,6 @@ describe('Cars component', () => {
     )
     const result = queryAllByTestId('car-item');
     await waitFor(() => expect(queryAllByTestId('car-item').length).toBeGreaterThan(0));
-    console.log(result);
   })
 })
 

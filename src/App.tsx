@@ -5,6 +5,7 @@ import {Cars} from "./pages/Cars";
 import {CarDetails} from "./pages/CarDetails";
 import {ErrorPage} from "./pages/ErrorPage";
 import {Action, GlobalState} from "./models/store.model";
+import {Header} from "./components/Header";
 
 
 export function globalReducer(state: GlobalState, action: Action): GlobalState {
@@ -44,6 +45,7 @@ function App() {
   return (
     <BrowserRouter>
       <StoreContext.Provider value={{...container, state, dispatch}}>
+        <Header/>
         <Switch>
           <Route exact={true} path="/" component={Cars}/>
           <Route exact={true} path="/details/:stockNumber" component={CarDetails}/>
