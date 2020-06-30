@@ -25,9 +25,10 @@ function loadFromStorage(): string[] {
   return favoriteIds;
 }
 
-function persistInStore(id: string) {
+function persistInStore(id: number) {
   const data = loadFromStorage();
-  const dataToSave = data.includes(id) ? data.filter(storedId => storedId !== id) : data.concat(id);
+  const idToString = String(id);
+  const dataToSave = data.includes(idToString) ? data.filter(storedId => storedId !== idToString) : data.concat(idToString);
   localStorage.setItem('favorite', JSON.stringify(dataToSave))
 }
 
@@ -35,7 +36,7 @@ export function useFavorite() {
   const [shouldLoad, setShouldLoad] = useState(true);
   const [idsToLoad, setIdsToLoad] = useState<string[]>([]);
 
-  function setFavorite(stockNumber: string) {
+  function setFavorite(stockNumber: number) {
     if (Number(stockNumber) in favoriteStore) {
       delete favoriteStore[stockNumber]
     }
@@ -55,16 +56,23 @@ export function useFavorite() {
   }, [shouldLoad]);
 
   const loadFavoritesState = useFetching(async () => {
-    const promises = idsToLoad.map(id => axios.get(`https://auto1-mock-server.herokuapp.com/api/cars/${id}`));
-    const result = await Promise.all(promises);
-    result.forEach(({data}) => favoriteStore[data.car.stockNumber] = data.car)
+    const promises = idsToLoad.map(id => axios.get(`https://auto1-mock-server.herokuapp.com/api/cars/${id}`).catch(e => ({
+      data: {
+        car: {
+          stockNumber: id,
+          error: e
+        }
+      }
+    })));
+    const resultArray = await Promise.all(promises);
+    resultArray.forEach(({data}) => favoriteStore[data.car.stockNumber] = data.car)
   }, null, [idsToLoad])
 
   function getFavorites() {
     return Object.values(favoriteStore);
   }
 
-  function isFavourite(stockNumber: string): boolean {
+  function isFavourite(stockNumber: number): boolean {
     return stockNumber in favoriteStore;
   }
 

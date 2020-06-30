@@ -8,9 +8,10 @@ import {Filters} from "../components/Filters";
 import {FilterState} from "../models/filters.model";
 import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
 import {Container, Grid, Typography} from "@material-ui/core";
-import {useFavorite} from "../hooks/useFavoutire";
+import {useFavorite} from "../hooks/useFavourite";
 import {useDispatch, useSelector} from "../hooks/useStore";
 import {carsRoute} from "../constants/apiRoutes.constants";
+import {Favourites} from "../components/FavouriteList";
 
 
 async function fetchManufacturersAndColors() {
@@ -63,6 +64,7 @@ export function Cars() {
           <Filters initialFilters={filters} manufacturers={manufacturersAndColors.data.manufacturers}
                    colors={manufacturersAndColors.data.colors}
                    onSelect={filters => dispatch({type: 'SET_FILTER', payload: filters})}/>
+          <Favourites/>
         </Grid>
         <Grid item sm={8} xs={12}>
           <Typography variant="h6" gutterBottom>

@@ -19,8 +19,11 @@ const colorsFixture = ["red", "blue", "green", "black", "yellow", "white", "silv
 describe('Filters component', () => {
   it('should render filters and fire OnSelect with default values when button is pressed', () => {
     const onSelect = jest.fn();
-    const {getByText} = render(<Filters manufacturers={manufacturersFixture} colors={colorsFixture}
-                                        onSelect={onSelect}/>);
+    const {getByText} = render(
+      <Filters initialFilters={{manufacturer: '', color: ''}} manufacturers={manufacturersFixture}
+               colors={colorsFixture}
+               onSelect={onSelect}/>
+    );
     fireEvent.click(getByText('Filter'));
 
     expect(onSelect).toHaveBeenCalledWith({manufacturer: '', color: ''});
@@ -28,7 +31,8 @@ describe('Filters component', () => {
 
   it('should fire OnSelect with selected manufacturer', () => {
     const onSelect = jest.fn();
-    const {getByTestId, getByRole, getByText} = render(<Filters manufacturers={manufacturersFixture}
+    const {getByTestId, getByRole, getByText} = render(<Filters initialFilters={{manufacturer: '', color: ''}}
+                                                                manufacturers={manufacturersFixture}
                                                                 colors={colorsFixture}
                                                                 onSelect={onSelect}/>);
 
@@ -48,7 +52,8 @@ describe('Filters component', () => {
 
   it('should fire OnSelect with selected color', () => {
     const onSelect = jest.fn();
-    const {getByTestId, getByRole, getByText} = render(<Filters manufacturers={manufacturersFixture}
+    const {getByTestId, getByRole, getByText} = render(<Filters initialFilters={{manufacturer: '', color: ''}}
+                                                                manufacturers={manufacturersFixture}
                                                                 colors={colorsFixture}
                                                                 onSelect={onSelect}/>);
 
@@ -68,7 +73,8 @@ describe('Filters component', () => {
 
   it('should fire OnSelect with selected color and manufacturer', () => {
     const onSelect = jest.fn();
-    const {getByTestId, getByRole, getByText} = render(<Filters manufacturers={manufacturersFixture}
+    const {getByTestId, getByRole, getByText} = render(<Filters initialFilters={{manufacturer: '', color: ''}}
+                                                                manufacturers={manufacturersFixture}
                                                                 colors={colorsFixture}
                                                                 onSelect={onSelect}/>);
     const buttonManufacturer = within(getByTestId('manufacturers')).getByRole('button');
@@ -94,5 +100,5 @@ describe('Filters component', () => {
     });
     expect(onSelect).toHaveBeenCalledWith({manufacturer: 'BMW', color: 'white'});
   });
-})
+});
 

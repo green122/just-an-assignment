@@ -2,10 +2,10 @@ import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {Box, Button, Card, CardContent, CardMedia, List, ListItem, Typography} from "@material-ui/core";
 import {useCardStyles} from "./Filters";
-import {useFavorite} from "../hooks/useFavoutire";
+import {useFavorite} from "../hooks/useFavourite";
 
 interface AddFavouriteProps {
-  stockNumber: string;
+  stockNumber: number;
 }
 
 export function AddFavourite({stockNumber}: AddFavouriteProps) {

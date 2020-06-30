@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {CarDTO, CarsListDTO} from "../models/cars.models";
 import {Box, Card, CardContent, CardMedia, List} from "@material-ui/core";
 import Pagination from '@material-ui/lab/Pagination';
-import {CarsItem, useStyles} from "./CarItem";
+import {CarsItem} from "./CarItem";
 import CarItemPlaceholder from "./CarItemPlaceholder";
 
 interface CarsListProps {
@@ -15,7 +15,6 @@ interface CarsListProps {
 
 export function CarsList({list, page, isLoading, totalPageCount, onPageSelect}: CarsListProps) {
 
-  const classes = useStyles()
   const handleChange = useCallback((_, selectedPage: number) => onPageSelect(selectedPage), [onPageSelect]);
   if (isLoading) {
     return (

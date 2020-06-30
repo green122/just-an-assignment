@@ -11,6 +11,7 @@ export interface CarDTO {
   mileage: MileageDTO;
   fuelType: string;
   pictureUrl: string;
+  error?: unknown;
 }
 
 export interface CarsListDTO {

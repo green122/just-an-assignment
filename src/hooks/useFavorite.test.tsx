@@ -1,6 +1,6 @@
 import {renderHook, act} from '@testing-library/react-hooks';
 import axios from 'axios';
-import {useFavorite} from "./useFavoutire";
+import {useFavorite} from "./useFavourite";
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

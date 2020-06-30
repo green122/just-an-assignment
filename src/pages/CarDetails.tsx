@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import axios from 'axios';
 import {useHistory, useParams} from "react-router";
 import {useFetching} from "../hooks/useFetching";
-import {useFavorite} from "../hooks/useFavoutire";
+import {useFavorite} from "../hooks/useFavourite";
 import {Box, Button, Card, CardContent, Container, Grid, Typography} from "@material-ui/core";
 import {useCardStyles} from "../components/Filters";
 import {AddFavourite} from "../components/AddFavourite";
@@ -89,7 +89,7 @@ export function CarDetails() {
               </Typography>
             </Grid>
             <Grid item md={5} xs={12}>
-              {!isLoading && !error && <AddFavourite stockNumber={stockNumber}/>}
+              {!isLoading && !error && <AddFavourite stockNumber={Number(stockNumber)}/>}
             </Grid>
           </Grid>
         </Box>
