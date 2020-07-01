@@ -1,14 +1,13 @@
 import React, {Fragment} from 'react';
 import axios from 'axios';
 import {useHistory, useParams} from "react-router";
-import {useFetching} from "../hooks/useFetching";
-import {useFavorite} from "../hooks/useFavourite";
-import {Box, Button, Card, CardContent, Container, Grid, Typography} from "@material-ui/core";
-import {useCardStyles} from "../components/Filters";
+import {Box, Container, Grid, Typography} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+
 import {AddFavourite} from "../components/AddFavourite";
+import {useFetching} from "../hooks/useFetching";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import {CarDTO} from "../models/cars.models";
-import {makeStyles} from "@material-ui/core/styles";
 import {colors} from "../constants/colors.constants";
 
 
@@ -79,7 +78,7 @@ export function CarDetails() {
   return (
     <Fragment>
       <Container className={detailsClasses.imageContainer} maxWidth="xl">
-        {!isLoading && !!car && <img className={detailsClasses.picture} src={car.pictureUrl}/>}
+        {!isLoading && !!car && <img alt="Car Logo" className={detailsClasses.picture} src={car.pictureUrl}/>}
       </Container>
       <Container className={detailsClasses.contentContainer}>
         <Box mt={5}>

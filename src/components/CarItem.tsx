@@ -1,12 +1,13 @@
 import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
-import {CarDTO, CarsListDTO} from "../models/cars.models";
-import {Box, Button, Card, CardContent, CardMedia, List, ListItem, Typography} from "@material-ui/core";
-import Link from '@material-ui/core/Link';
 import {makeStyles} from "@material-ui/core/styles";
+import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
+import Link from '@material-ui/core/Link';
+
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import BrokenImagePicture from '../assets/broken-image.png'
 import {colors} from "../constants/colors.constants";
+import {CarDTO} from "../models/cars.models";
 
 interface CarsItemProps {
   car: CarDTO
@@ -70,7 +71,8 @@ export function CarsItem({car}: CarsItemProps) {
     <Card className={classes.root} data-testid="car-item" variant="outlined" color="text.primary">
       <CardContent className={classes.cardContentImage}>
         <CardMedia
-          component={() => (<img onError={getFallbackImage} className={classes.cardImage} src={car.pictureUrl}/>)}
+          component={() => (
+            <img alt="Car Preview" onError={getFallbackImage} className={classes.cardImage} src={car.pictureUrl}/>)}
           className={classes.picture}
         />
       </CardContent>

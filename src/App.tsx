@@ -13,14 +13,11 @@ export function globalReducer(state: GlobalState, action: Action): GlobalState {
   switch (action.type) {
     case "SET_PAGE":
       return {...state, currentPage: action.payload, cars: []};
-      break;
     case "SET_FILTER":
       return {...state, filters: action.payload, cars: [], currentPage: 1};
-      break;
     case "SET_CARS":
       const {cars, totalPageCount, totalCarsCount} = action.payload;
       return {...state, cars, totalPageCount, totalCarsCount};
-      break;
     default:
       return state;
   }

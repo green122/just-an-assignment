@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, Card, CardContent, CardMedia, Grid, List, ListItem, Typography} from "@material-ui/core";
+import {Box, Button, Grid} from "@material-ui/core";
 import {useCardStyles} from "./Filters";
 import {useFavorite} from "../hooks/useFavourite";
 
@@ -11,7 +11,7 @@ export function AddFavourite({stockNumber}: AddFavouriteProps) {
   const classes = useCardStyles();
   const {setFavorite, isFavoriteLoading, isFavourite} = useFavorite();
   return (
-    <div className={classes.contentContainer}>
+    <Box className={classes.contentContainer}>
       <span className={classes.contentText}>
       {isFavourite(stockNumber) ?
         'You can remove this car from you favourites'
@@ -23,6 +23,6 @@ export function AddFavourite({stockNumber}: AddFavouriteProps) {
           {isFavourite(stockNumber) ? 'Remove' : 'Save'}
         </Button>
       </Grid>
-    </div>
+    </Box>
   );
 };

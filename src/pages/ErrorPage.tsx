@@ -48,7 +48,7 @@ export function ErrorPage() {
     <Container className={classes.container} maxWidth="sm">
       <Box className={classes.contentContainer} mt={25}>
         <Box className={classes.image}>
-          <img src="https://static.auto1.com/@auto1/auto1-platform/4.83.0/img/logo.png"/>
+          <img alt="Logo 1" src="https://static.auto1.com/@auto1/auto1-platform/4.83.0/img/logo.png"/>
         </Box>
         <Typography className={classes.header} variant="h2">
           404 - Not Found

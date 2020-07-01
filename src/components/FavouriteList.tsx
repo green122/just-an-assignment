@@ -1,24 +1,17 @@
 import React, {Fragment} from 'react';
-import {CarDTO, CarsListDTO, ManufacturerDTO} from "../models/cars.models";
+import {Link as RouterLink} from "react-router-dom";
+import Link from "@material-ui/core/Link";
 import {
-  Select,
   Button,
-  MenuItem,
-  Grid,
-  InputLabel,
   Typography,
   List,
   CardContent,
-  CardMedia,
   Card
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {FilterState} from "../models/filters.model";
-import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
+
 import {useFavorite} from "../hooks/useFavourite";
-import Link from "@material-ui/core/Link";
-import {Link as RouterLink} from "react-router-dom";
-import BrokenImagePicture from "../assets/broken-image.png";
+import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import {colors} from "../constants/colors.constants";
 
 export const useStyles = makeStyles({
@@ -37,10 +30,6 @@ export const useStyles = makeStyles({
     marginBottom: 12,
     padding: 12,
     height: 75
-  },
-  picture: {
-    width: 60,
-    height: "auto"
   },
   button: {
     fontSize: 12,
@@ -78,23 +67,6 @@ export const useStyles = makeStyles({
       paddingBottom: 0
     }
   },
-  cardContentImage: {
-    display: "flex",
-    width: 60,
-    alignItems: "center",
-    backgroundColor: colors.lightGray
-  },
-  cardImage: {
-    width: "100%",
-    height: "auto",
-    "&:before": {
-      display: "block",
-      position: "absolute",
-      height: 50,
-      width: 50,
-      backgroundImage: BrokenImagePicture
-    }
-  }
 });
 
 export function Favourites() {

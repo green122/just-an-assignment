@@ -62,6 +62,7 @@ export function useFetching<T>(action: () => Promise<T> | null, initialValue: T,
     return () => {
       didCancel = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   return state;

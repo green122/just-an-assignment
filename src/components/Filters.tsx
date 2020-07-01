@@ -1,9 +1,11 @@
-import React, {FormEvent, FormEventHandler, useCallback, useState} from 'react';
-import {CarDTO, CarsListDTO, ManufacturerDTO} from "../models/cars.models";
+import React, {useCallback, useState} from 'react';
 import {Select, Button, MenuItem, Grid, InputLabel} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import {FilterState} from "../models/filters.model";
+
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
+
+import {makeStyles} from "@material-ui/core/styles";
+import {ManufacturerDTO} from "../models/cars.models";
+import {FilterState} from "../models/filters.model";
 import {colors} from "../constants/colors.constants";
 
 interface FiltersProps {

@@ -1,5 +1,5 @@
-import React, {useCallback, useState} from 'react';
-import {Select, Button, MenuItem, Grid, InputLabel, AppBar, Toolbar, IconButton, Box} from "@material-ui/core";
+import React from 'react';
+import {AppBar, Toolbar, Box} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Link} from "react-router-dom";
 import {colors} from "../constants/colors.constants";
@@ -34,7 +34,7 @@ export function Header() {
       <Toolbar className={classes.toolbar}>
         <Box ml={5}>
           <Link to="/">
-            <img src="https://static.auto1.com/@auto1/auto1-platform/4.83.0/img/logo.png"/>
+            <img src="https://static.auto1.com/@auto1/auto1-platform/4.83.0/img/logo.png" alt="Logo"/>
           </Link>
         </Box>
         <Box>

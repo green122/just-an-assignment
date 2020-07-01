@@ -1,10 +1,11 @@
 import React, {useCallback} from 'react';
-import {CarDTO, CarsListDTO} from "../models/cars.models";
-import {Box, Card, CardContent, CardMedia, List} from "@material-ui/core";
+import {List} from "@material-ui/core";
 import Pagination from '@material-ui/lab/Pagination';
+import {makeStyles} from "@material-ui/core/styles";
+
 import {CarsItem} from "./CarItem";
 import CarItemPlaceholder from "./CarItemPlaceholder";
-import {makeStyles} from "@material-ui/core/styles";
+import {CarDTO} from "../models/cars.models";
 
 interface CarsListProps {
   list: CarDTO[];
@@ -32,7 +33,7 @@ export function CarsList({list, page, isLoading, totalPageCount, onPageSelect}: 
     return (
       <List>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
-          <CarItemPlaceholder/>
+          <CarItemPlaceholder key={index}/>
         ))}
       </List>)
   }
@@ -42,12 +43,13 @@ export function CarsList({list, page, isLoading, totalPageCount, onPageSelect}: 
       {list.map((carRow, index) => (
         <CarsItem car={carRow} key={index}/>
       ))}
-      <Pagination className={classes.paginatorContainer}
-                  count={totalPageCount}
-                  page={page}
-                  onChange={handleChange}
-                  showFirstButton
-                  showLastButton
+      <Pagination
+        className={classes.paginatorContainer}
+        count={totalPageCount}
+        page={page}
+        onChange={handleChange}
+        showFirstButton
+        showLastButton
       />
     </List>
   );

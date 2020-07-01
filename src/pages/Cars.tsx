@@ -1,16 +1,15 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React from 'react';
 import axios from 'axios';
-import {CarsList} from "../components/CarsList";
-import {useFetching} from "../hooks/useFetching";
-import {CarsListDTO} from "../models/cars.models";
-import {Filters} from "../components/Filters";
-import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
 import {Container, Grid, Typography} from "@material-ui/core";
-import {useFavorite} from "../hooks/useFavourite";
-import {useDispatch, useSelector} from "../hooks/useStore";
-import {carsRoute} from "../constants/apiRoutes.constants";
-import {Favourites} from "../components/FavouriteList";
 import {makeStyles} from "@material-ui/core/styles";
+import {CarsList} from "../components/CarsList";
+import {Favourites} from "../components/FavouriteList";
+import {Filters} from "../components/Filters";
+import {useFetching} from "../hooks/useFetching";
+import {useDispatch, useSelector} from "../hooks/useStore";
+import {removeEmptyProperties} from "../helpers/removeEmptyProperties";
+import {CarsListDTO} from "../models/cars.models";
+import {carsRoute} from "../constants/apiRoutes.constants";
 import {colors} from "../constants/colors.constants";
 
 
