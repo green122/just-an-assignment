@@ -4,6 +4,7 @@ import {Select, Button, MenuItem, Grid, InputLabel} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {FilterState} from "../models/filters.model";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
+import {colors} from "../constants/colors.constants";
 
 interface FiltersProps {
   manufacturers?: ManufacturerDTO[],
@@ -13,14 +14,16 @@ interface FiltersProps {
 }
 
 export const useCardStyles = makeStyles(() => ({
-  container: {
+  contentContainer: {
     display: 'flex',
     flexDirection: 'column',
     padding: 24,
-    border: '1px solid #ced4da',
+    border: '1px solid',
+    borderColor: colors.lightGray
   },
   selector: {
-    border: '1px solid #ced4da',
+    border: '1px solid',
+    borderColor: colors.lightGray,
     fontSize: 16,
     padding: 8,
     marginBottom: 12,
@@ -28,16 +31,20 @@ export const useCardStyles = makeStyles(() => ({
       backgroundColor: "white",
     },
   },
+  contentText: {
+    fontSize: 14
+  },
   button: {
-    backgroundColor: "#EA7F28",
-    color: "#EDEDED",
+    backgroundColor: colors.orange,
+    textTransform: "none",
+    color: colors.lightGray,
     marginTop: 24,
     width: 150,
     "&:focus": {
-      backgroundColor: "#D37324",
+      backgroundColor: colors.darkOrange,
     },
     "&:hover": {
-      backgroundColor: "#EA7F28",
+      backgroundColor: colors.orange,
     }
   },
   label: {
@@ -64,7 +71,7 @@ export function Filters({manufacturers = [], colors = [], initialFilters, onSele
   };
 
   return (
-    <div className={classes.container}>
+    <div className={classes.contentContainer}>
       <InputLabel className={classes.label}>Color</InputLabel>
       <Select disableUnderline value={filter.color || 'all'} autoWidth={true} className={classes.selector}
               data-testid="colors"

@@ -6,6 +6,7 @@ import Link from '@material-ui/core/Link';
 import {makeStyles} from "@material-ui/core/styles";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import BrokenImagePicture from '../assets/broken-image.png'
+import {colors} from "../constants/colors.constants";
 
 interface CarsItemProps {
   car: CarDTO
@@ -16,7 +17,8 @@ export const useStyles = makeStyles({
     display: "flex",
     marginBottom: 12,
     padding: 12,
-    height: 75
+    height: 75,
+    borderColor: colors.lightGray
   },
   picture: {
     width: 60,
@@ -28,14 +30,14 @@ export const useStyles = makeStyles({
   },
   linkText: {
     fontSize: 12,
-    color: "#EA7F28",
+    color: colors.orange,
     "&:hover": {
-      color: "#D37324"
+      color: colors.darkOrange
     }
   },
   contentText: {
     fontSize: 14,
-    color: "#4A4A4A"
+    color: colors.black,
   },
   cardContent: {
     padding: "0 0 0 12px",
@@ -47,18 +49,11 @@ export const useStyles = makeStyles({
     display: "flex",
     width: 60,
     alignItems: "center",
-    backgroundColor: "#EDEDED",
+    backgroundColor: colors.lightGray,
   },
   cardImage: {
     width: "100%",
     height: "auto",
-    "&:before": {
-      display: "block",
-      position: "absolute",
-      height: 50,
-      width: 50,
-      backgroundImage: BrokenImagePicture
-    }
   }
 });
 

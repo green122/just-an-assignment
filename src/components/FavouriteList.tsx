@@ -19,24 +19,18 @@ import {useFavorite} from "../hooks/useFavourite";
 import Link from "@material-ui/core/Link";
 import {Link as RouterLink} from "react-router-dom";
 import BrokenImagePicture from "../assets/broken-image.png";
-
-interface FiltersProps {
-  manufacturers?: ManufacturerDTO[],
-  colors?: string[],
-  initialFilters: FilterState,
-  onSelect: (filterState: FilterState) => void;
-}
-
+import {colors} from "../constants/colors.constants";
 
 export const useStyles = makeStyles({
-  container: {
+  contentContainer: {
     marginTop: 24,
     display: 'flex',
     flexDirection: 'column',
     padding: 24,
     maxHeight: 300,
     overflow: "auto",
-    border: '1px solid #ced4da',
+    border: '1px solid',
+    borderColor: colors.lightGray
   },
   root: {
     display: "flex",
@@ -64,14 +58,14 @@ export const useStyles = makeStyles({
   linkText: {
     fontSize: 12,
     marginRight: 18,
-    color: "#EA7F28",
+    color: colors.orange,
     "&:hover": {
-      color: "#D37324"
+      color: colors.darkOrange
     }
   },
   contentText: {
     fontSize: 14,
-    color: "#4A4A4A"
+    color: colors.black
   },
   contentTextError: {
     fontSize: 14,
@@ -88,7 +82,7 @@ export const useStyles = makeStyles({
     display: "flex",
     width: 60,
     alignItems: "center",
-    backgroundColor: "#EDEDED",
+    backgroundColor: colors.lightGray
   },
   cardImage: {
     width: "100%",
@@ -107,8 +101,11 @@ export function Favourites() {
   const {getFavorites, setFavorite} = useFavorite();
   const itemClasses = useStyles();
   const favourites = getFavorites();
+  if (!favourites.length) {
+    return null;
+  }
   return (
-    <div className={itemClasses.container}>
+    <div className={itemClasses.contentContainer}>
       <Typography>
         Your favourite cars
       </Typography>

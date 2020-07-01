@@ -9,6 +9,7 @@ import {AddFavourite} from "../components/AddFavourite";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import {CarDTO} from "../models/cars.models";
 import {makeStyles} from "@material-ui/core/styles";
+import {colors} from "../constants/colors.constants";
 
 
 const useDetailsStyles = makeStyles({
@@ -18,6 +19,10 @@ const useDetailsStyles = makeStyles({
     padding: 12,
     height: 75
   },
+  contentContainer: {
+    minHeight: "calc(100vh - 400px)",
+    maxWidth: 800
+  },
   picture: {
     width: "auto",
     height: "100%",
@@ -26,19 +31,26 @@ const useDetailsStyles = makeStyles({
   header: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#4A4A4A"
+    color: colors.black,
+    marginBottom: 12
   },
   contentText: {
     fontSize: 18,
-    color: "#4A4A4A"
+    color: colors.black,
+    marginBottom: 12
+  },
+  additionalText: {
+    fontSize: 14,
+    color: colors.black
   },
   content: {
     padding: 18,
   },
   imageContainer: {
-    backgroundColor: "#EDEDED",
+    backgroundColor: colors.lightGray,
     display: "flex",
-    height: 400
+    height: 400,
+    minHeight: 400
   },
   cardContentImage: {
     display: "flex",
@@ -55,7 +67,6 @@ async function fetchCarDetails(stockNumber: string) {
 
 export function CarDetails() {
 
-  const classes = useCardStyles();
   const history = useHistory();
   const detailsClasses = useDetailsStyles();
   const {stockNumber} = useParams();
@@ -65,29 +76,25 @@ export function CarDetails() {
     history.push('/404');
   }
 
-  if (!car) {
-    return null;
-  }
-
   return (
     <Fragment>
       <Container className={detailsClasses.imageContainer} maxWidth="xl">
-        <img className={detailsClasses.picture} src={car.pictureUrl}/>
+        {!isLoading && !!car && <img className={detailsClasses.picture} src={car.pictureUrl}/>}
       </Container>
-      <Container maxWidth="md">
+      <Container className={detailsClasses.contentContainer}>
         <Box mt={5}>
-          <Grid container>
-            <Grid item md={7} xs={12}>
+          <Grid container spacing={3}>
+            {car && <Grid item md={6} xs={12}>
               <Typography className={detailsClasses.header} variant="h6" gutterBottom>
                 {car.modelName}
               </Typography>
               <Typography className={detailsClasses.contentText} variant="body2">
                 {`Stock # ${car.stockNumber} - ${car.mileage.number} - ${car.mileage.unit} ${car.fuelType} - ${capitalizeFirstLetter(car.color)}`}
               </Typography>
-              <Typography className={detailsClasses.contentText} variant="body2">
+              <Typography className={detailsClasses.additionalText} variant="body2">
                 {`This car is currently available and can be delivered as soon as tomorrow morning. Please be aware that delivery times shown in this page are not definitive and may change due to bad weather condition`}
               </Typography>
-            </Grid>
+            </Grid>}
             <Grid item md={5} xs={12}>
               {!isLoading && !error && <AddFavourite stockNumber={Number(stockNumber)}/>}
             </Grid>

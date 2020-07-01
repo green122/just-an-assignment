@@ -1,6 +1,5 @@
 import React from 'react';
-import {Link as RouterLink} from 'react-router-dom';
-import {Box, Button, Card, CardContent, CardMedia, List, ListItem, Typography} from "@material-ui/core";
+import {Box, Button, Card, CardContent, CardMedia, Grid, List, ListItem, Typography} from "@material-ui/core";
 import {useCardStyles} from "./Filters";
 import {useFavorite} from "../hooks/useFavourite";
 
@@ -12,11 +11,18 @@ export function AddFavourite({stockNumber}: AddFavouriteProps) {
   const classes = useCardStyles();
   const {setFavorite, isFavoriteLoading, isFavourite} = useFavorite();
   return (
-    <div className={classes.container}>
-      If you like this car, click the button and save it in your collection of favourite items.
-      <Button className={classes.button} onClick={() => setFavorite(stockNumber)} disabled={isFavoriteLoading}>
-        {isFavourite(stockNumber) ? 'Remove' : 'Save'}
-      </Button>
+    <div className={classes.contentContainer}>
+      <span className={classes.contentText}>
+      {isFavourite(stockNumber) ?
+        'You can remove this car from you favourites'
+        : 'If you like this car, click the button and save it in your collection of favourite items.'
+      }
+      </span>
+      <Grid container justify="flex-end">
+        <Button className={classes.button} onClick={() => setFavorite(stockNumber)} disabled={isFavoriteLoading}>
+          {isFavourite(stockNumber) ? 'Remove' : 'Save'}
+        </Button>
+      </Grid>
     </div>
   );
 };

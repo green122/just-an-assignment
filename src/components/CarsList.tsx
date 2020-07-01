@@ -4,6 +4,7 @@ import {Box, Card, CardContent, CardMedia, List} from "@material-ui/core";
 import Pagination from '@material-ui/lab/Pagination';
 import {CarsItem} from "./CarItem";
 import CarItemPlaceholder from "./CarItemPlaceholder";
+import {makeStyles} from "@material-ui/core/styles";
 
 interface CarsListProps {
   list: CarDTO[];
@@ -13,8 +14,19 @@ interface CarsListProps {
   onPageSelect: (value: number) => void;
 }
 
+const useStyles = makeStyles({
+  list: {
+    paddingBottom: 12
+  },
+  paginatorContainer: {
+    display: "flex",
+    justifyContent: "center"
+  }
+})
+
 export function CarsList({list, page, isLoading, totalPageCount, onPageSelect}: CarsListProps) {
 
+  const classes = useStyles();
   const handleChange = useCallback((_, selectedPage: number) => onPageSelect(selectedPage), [onPageSelect]);
   if (isLoading) {
     return (
@@ -26,11 +38,17 @@ export function CarsList({list, page, isLoading, totalPageCount, onPageSelect}: 
   }
   // I used index instead of stocknumber because stocknumber wasn't unique. It led to bug. Index is Ok in our case
   return (
-    <List>
+    <List className={classes.list}>
       {list.map((carRow, index) => (
         <CarsItem car={carRow} key={index}/>
       ))}
-      <Pagination count={totalPageCount} page={page} onChange={handleChange} showFirstButton showLastButton/>
+      <Pagination className={classes.paginatorContainer}
+                  count={totalPageCount}
+                  page={page}
+                  onChange={handleChange}
+                  showFirstButton
+                  showLastButton
+      />
     </List>
   );
 };

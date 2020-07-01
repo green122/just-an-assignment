@@ -6,6 +6,7 @@ import {CarDetails} from "./pages/CarDetails";
 import {ErrorPage} from "./pages/ErrorPage";
 import {Action, GlobalState} from "./models/store.model";
 import {Header} from "./components/Header";
+import {Footer} from "./components/Footer";
 
 
 export function globalReducer(state: GlobalState, action: Action): GlobalState {
@@ -51,6 +52,7 @@ function App() {
           <Route exact={true} path="/details/:stockNumber" component={CarDetails}/>
           <Route exact={true} path="*" component={ErrorPage}/>
         </Switch>
+        <Footer/>
       </StoreContext.Provider>
     </BrowserRouter>
   );
