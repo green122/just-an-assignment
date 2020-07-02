@@ -47,7 +47,8 @@ export const useStyles = makeStyles({
     }
   },
   cardContentImage: {
-    display: "flex",
+    padding: 8,
+      display: "flex",
     width: 60,
     alignItems: "center",
     backgroundColor: colors.lightGray,
@@ -76,7 +77,7 @@ export function CarsItem({car}: CarsItemProps) {
           className={classes.picture}
         />
       </CardContent>
-
+      
       <CardContent className={classes.cardContent}>
         <Typography className={classes.header} variant="h6" gutterBottom>
           {car.modelName}
@@ -87,7 +88,7 @@ export function CarsItem({car}: CarsItemProps) {
         <Link className={classes.linkText} component={RouterLink} to={`/details/${car.stockNumber}`}>
           View details
         </Link>
-
+      
       </CardContent>
     </Card>
   );
