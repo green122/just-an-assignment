@@ -1,6 +1,6 @@
 import {renderHook, act} from '@testing-library/react-hooks';
 import axios from 'axios';
-import {useFavorite} from "./useFavourite";
+import {useFavourite} from "./useFavourite";
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -32,15 +32,15 @@ describe('useFavorite hook', () => {
     })));
 
     const {result, waitForNextUpdate} = renderHook(
-      () => useFavorite()
+      () => useFavourite()
     );
 
-    act(() => result.current.setFavorite('11100'));
+    act(() => result.current.setFavourite(100));
     await waitForNextUpdate();
-    expect(result.current.getFavorites()).toEqual([{stockNumber: 100, data: 'somedata'}]);
+    expect(result.current.getFavourites()).toEqual([{stockNumber: 100, data: 'somedata'}]);
 
-    // act(() => result.current.setFavorite('11100'));
-    // expect(result.current.getFavorites()).toEqual([]);
+    act(() => result.current.setFavourite(100));
+    expect(result.current.getFavourites()).toEqual([]);
   })
 
 });

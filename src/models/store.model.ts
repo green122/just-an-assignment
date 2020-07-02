@@ -1,12 +1,6 @@
-import {CarDTO, CarsListDTO} from "./cars.models";
+import {CarDTO, CarsListDTO, ManufacturerDTO} from "./cars.models";
 import {FilterState} from "./filters.model";
 
-export type ActionType = 'SET_PAGE' | 'SET_FILTER';
-
-export interface SetFilter {
-  filterType: 'manufacturer' | 'color';
-  value: string;
-}
 
 export type Action = {
   type: 'SET_PAGE',
@@ -18,6 +12,10 @@ export type Action = {
   type: 'SET_CARS',
   payload: CarsListDTO
 }
+  | {
+  type: 'SET_MANUFACTURERS_COLORS',
+  payload: {manufacturers: ManufacturerDTO[], colors: string[]}
+}
 
 export interface GlobalState {
   currentPage: number;
@@ -25,4 +23,6 @@ export interface GlobalState {
   totalCarsCount: number;
   cars: CarDTO[];
   filters: FilterState;
+  manufacturers: ManufacturerDTO[];
+  colors: string[];
 }

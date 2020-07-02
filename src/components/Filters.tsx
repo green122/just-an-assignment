@@ -11,6 +11,7 @@ import {colors} from "../constants/colors.constants";
 interface FiltersProps {
   manufacturers?: ManufacturerDTO[],
   colors?: string[],
+  isLoading: boolean,
   initialFilters: FilterState,
   onSelect: (filterState: FilterState) => void;
 }
@@ -55,7 +56,7 @@ export const useCardStyles = makeStyles(() => ({
   }
 }));
 
-export function Filters({manufacturers = [], colors = [], initialFilters, onSelect}: FiltersProps) {
+export function Filters({manufacturers = [], colors = [], initialFilters, onSelect, isLoading}: FiltersProps) {
 
   const [filter, setFilter] = useState<FilterState>(initialFilters);
   const classes = useCardStyles();
@@ -75,7 +76,8 @@ export function Filters({manufacturers = [], colors = [], initialFilters, onSele
   return (
     <div className={classes.contentContainer}>
       <InputLabel className={classes.label}>Color</InputLabel>
-      <Select disableUnderline value={filter.color || 'all'} autoWidth={true} className={classes.selector}
+      <Select disableUnderline disabled={isLoading} value={filter.color || 'all'} autoWidth={true}
+              className={classes.selector}
               data-testid="colors"
               onChange={event => handleSelect(event, 'color')}>
         <MenuItem key='all' value="all">All car colors</MenuItem>
@@ -83,7 +85,8 @@ export function Filters({manufacturers = [], colors = [], initialFilters, onSele
           <MenuItem key={index} value={color}>{capitalizeFirstLetter(color)}</MenuItem>))}
       </Select>
       <InputLabel className={classes.label}>Manufacturer</InputLabel>
-      <Select disableUnderline value={filter.manufacturer || 'all'} autoWidth={true} className={classes.selector}
+      <Select disableUnderline disabled={isLoading} value={filter.manufacturer || 'all'} autoWidth={true}
+              className={classes.selector}
               data-testid="manufacturers"
               onChange={event => handleSelect(event, 'manufacturer')}>
         <MenuItem key='all' value="all">All manufacturers</MenuItem>
@@ -92,7 +95,7 @@ export function Filters({manufacturers = [], colors = [], initialFilters, onSele
       </Select>
 
       <Grid container justify="flex-end">
-        <Button className={classes.button} onClick={handleSubmit}>Filter</Button>
+        <Button disabled={isLoading} className={classes.button} onClick={handleSubmit}>Filter</Button>
       </Grid>
     </div>
   );

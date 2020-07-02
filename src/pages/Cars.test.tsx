@@ -5,27 +5,29 @@ import {Cars} from "./Cars";
 import {render, waitFor} from "@testing-library/react";
 import {carsFixture} from "../components/carsFixture";
 import {container, globalReducer, initialState, StoreContext} from "../App";
+import {BrowserRouter} from "react-router-dom";
 
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe.skip('Cars component', () => {
+const mockFetching: any = {
+  data: carsFixture
+};
+
+jest.mock('../hooks/useFetching.ts', () => ({
+  useFetching: () => mockFetching
+}));
+
+describe('Cars component', () => {
   it('should request data from backend and set them to store', async () => {
-    mockedAxios.get.mockImplementationOnce((request: string) => {
-      if (request.includes('colors') || request.includes('manufacturers')) {
-        return Promise.resolve([])
-      }
-      return Promise.resolve({data: carsFixture}
-      )
-    });
+    const newContainer = {...container, state: {...initialState, cars: carsFixture.cars}}
     const {queryAllByTestId} = render(
-      <StoreContext.Provider value={container}>
-        <Cars/>
-      </StoreContext.Provider>
+      <BrowserRouter>
+        <StoreContext.Provider value={newContainer}>
+          <Cars/>
+        </StoreContext.Provider>
+      </BrowserRouter>
     )
-    const result = queryAllByTestId('car-item');
-    await waitFor(() => expect(queryAllByTestId('car-item').length).toBeGreaterThan(0));
+    expect(queryAllByTestId('car-item').length).toBeGreaterThan(0);
   })
-})
+});
 
 

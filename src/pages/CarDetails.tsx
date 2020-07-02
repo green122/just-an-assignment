@@ -1,7 +1,7 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import axios from 'axios';
 import {useHistory, useParams} from "react-router";
-import {Box, Container, Grid, Typography} from "@material-ui/core";
+import {Box, CircularProgress, Container, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 import {AddFavourite} from "../components/AddFavourite";
@@ -9,6 +9,8 @@ import {useFetching} from "../hooks/useFetching";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import {CarDTO} from "../models/cars.models";
 import {colors} from "../constants/colors.constants";
+import {detailsRoute} from "../constants/apiRoutes.constants";
+import {ErrorMessage} from "../components/ErrorMessage";
 
 
 const useDetailsStyles = makeStyles({
@@ -20,6 +22,10 @@ const useDetailsStyles = makeStyles({
   },
   contentContainer: {
     minHeight: "calc(100vh - 400px)",
+    maxWidth: 800
+  },
+  errorContainer: {
+    minHeight: "calc(100vh - 180px)",
     maxWidth: 800
   },
   picture: {
@@ -49,18 +55,25 @@ const useDetailsStyles = makeStyles({
     backgroundColor: colors.lightGray,
     display: "flex",
     height: 400,
-    minHeight: 400
+    minHeight: 400,
+    position: "relative"
   },
   cardContentImage: {
     display: "flex",
     width: 60,
     alignItems: "center",
+  },
+  spinner: {
+    color: colors.orange,
+    position: "absolute",
+    top: "calc(50% - 20px)",
+    left: "calc(50% - 20px)"
   }
 });
 
 
-async function fetchCarDetails(stockNumber: string) {
-  const response = await axios.get(`https://auto1-mock-server.herokuapp.com/api/cars/${stockNumber}`);
+async function fetchCarDetails(stockNumber: number) {
+  const response = await axios.get(detailsRoute(stockNumber));
   return response.data.car as CarDTO;
 }
 
@@ -69,16 +82,27 @@ export function CarDetails() {
   const history = useHistory();
   const detailsClasses = useDetailsStyles();
   const {stockNumber} = useParams();
-  const {data: car, isLoading, error} = useFetching(() => fetchCarDetails(stockNumber), null, [stockNumber]);
+  const {data: car, isLoading, error} = useFetching(() => fetchCarDetails(Number(stockNumber)), null, [stockNumber]);
+
+
+  useEffect(() => {
+    if (error?.response?.status === 404) {
+      history.push('/404');
+    }
+  }, [error, history])
+
 
   if (error) {
-    history.push('/404');
+    return (
+      <Container className={detailsClasses.errorContainer}>
+        <ErrorMessage message="Something bad has happened. Please try again later."/>
+      </Container>)
   }
-
   return (
     <Fragment>
       <Container className={detailsClasses.imageContainer} maxWidth="xl">
         {!isLoading && !!car && <img alt="Car Logo" className={detailsClasses.picture} src={car.pictureUrl}/>}
+        {isLoading && <CircularProgress className={detailsClasses.spinner}/>}
       </Container>
       <Container className={detailsClasses.contentContainer}>
         <Box mt={5}>

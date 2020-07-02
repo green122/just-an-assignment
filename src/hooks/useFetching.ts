@@ -1,13 +1,11 @@
 import {useEffect, useReducer} from "react";
+import {AxiosError} from 'axios';
 
 interface IFetchState<T> {
   data: T,
   isLoading: boolean,
-  error?: string
+  error?: AxiosError;
 }
-
-type ActionType =
-  'request' | 'success' | 'failure';
 
 type Action<T> = {
   type: 'request',
@@ -16,15 +14,15 @@ type Action<T> = {
   payload: T
 } | {
   type: 'failure',
-  payload: string
+  payload: AxiosError
 }
 
 const dataFetchReducer = <T>() => (state: IFetchState<T>, action: Action<T>): IFetchState<T> => {
   switch (action.type) {
     case 'request':
-      return {...state, isLoading: true, error: ''};
+      return {...state, isLoading: true, error: undefined};
     case 'success':
-      return {...state, isLoading: false, data: action.payload, error: ''};
+      return {...state, isLoading: false, data: action.payload, error: undefined};
     case 'failure':
       return {...state, isLoading: false, error: action.payload};
   }
@@ -32,7 +30,7 @@ const dataFetchReducer = <T>() => (state: IFetchState<T>, action: Action<T>): IF
 
 export function useFetching<T>(action: () => Promise<T> | null, initialValue: T, deps: any[] = []): IFetchState<T> {
 
-  const initialState: IFetchState<T> = {data: initialValue, error: '', isLoading: false};
+  const initialState: IFetchState<T> = {data: initialValue, isLoading: false};
   const [state, dispatch] = useReducer(dataFetchReducer<T>(), initialState);
 
   useEffect(() => {

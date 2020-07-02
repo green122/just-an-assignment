@@ -18,7 +18,7 @@ export const useStyles = makeStyles({
     display: "flex",
     marginBottom: 12,
     padding: 12,
-    height: 75,
+    minHeight: 75,
     borderColor: colors.lightGray
   },
   picture: {

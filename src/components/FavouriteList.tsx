@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
-import {useFavorite} from "../hooks/useFavourite";
+import {useFavourite} from "../hooks/useFavourite";
 import {capitalizeFirstLetter} from "../helpers/capitalizeFirstLetter";
 import {colors} from "../constants/colors.constants";
 
@@ -29,7 +29,7 @@ export const useStyles = makeStyles({
     display: "flex",
     marginBottom: 12,
     padding: 12,
-    height: 75
+    minHeight: 75
   },
   button: {
     fontSize: 12,
@@ -70,9 +70,9 @@ export const useStyles = makeStyles({
 });
 
 export function Favourites() {
-  const {getFavorites, setFavorite} = useFavorite();
+  const {getFavourites, setFavourite} = useFavourite();
   const itemClasses = useStyles();
-  const favourites = getFavorites();
+  const favourites = getFavourites();
   if (!favourites.length) {
     return null;
   }
@@ -102,7 +102,7 @@ export function Favourites() {
                     View details
                   </Link>
                 </Fragment>}
-              <Button className={itemClasses.button} onClick={() => setFavorite(car.stockNumber)}>Remove from
+              <Button className={itemClasses.button} onClick={() => setFavourite(car.stockNumber)}>Remove from
                 favourite</Button>
             </CardContent>
           </Card>

@@ -5,7 +5,7 @@ const mockClient = {};
 
 describe('useFetching hook', () => {
 
-  it('should return isLoading flat set to true, then data from promise', async () => {
+  it('should return isLoading flag set to true, then data from promise', async () => {
     const fakeResponse = {
       data: 'someData;'
     }
@@ -13,10 +13,10 @@ describe('useFetching hook', () => {
       () => useFetching(() => Promise.resolve(fakeResponse), null, [])
     );
 
-    expect(result.current).toEqual({isLoading: true, error: '', data: null});
+    expect(result.current).toEqual({isLoading: true, data: null});
 
     await waitForNextUpdate();
-    expect(result.current).toEqual({isLoading: false, data: fakeResponse, error: ''});
+    expect(result.current).toEqual({isLoading: false, data: fakeResponse});
   })
 
   it('should return isLoading flat set to true, then error from promise', async () => {
@@ -25,7 +25,7 @@ describe('useFetching hook', () => {
       () => useFetching(() => Promise.reject(new Error('some error')), null, [])
     );
 
-    expect(result.current).toEqual({isLoading: true, error: '', data: null});
+    expect(result.current).toEqual({isLoading: true, data: null});
 
     await waitForNextUpdate();
     expect(result.current).toEqual({isLoading: false, data: null, error: Error('some error')});

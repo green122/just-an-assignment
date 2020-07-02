@@ -1,3 +1,8 @@
+### Additional note
+I've implemented "Save to favourite -> Show favourites feature". You can add a car to favourites on
+the Car Details page. Then you'll see a list of favourites on the main page. Sometimes stockNumbers
+cannot be found - then we get "currently unavailable" message there.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

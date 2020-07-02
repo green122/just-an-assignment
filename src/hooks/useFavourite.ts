@@ -32,11 +32,11 @@ function persistInStore(id: number) {
   localStorage.setItem('favorite', JSON.stringify(dataToSave))
 }
 
-export function useFavorite() {
+export function useFavourite() {
   const [shouldLoad, setShouldLoad] = useState(true);
   const [idsToLoad, setIdsToLoad] = useState<string[]>([]);
 
-  function setFavorite(stockNumber: number) {
+  function setFavourite(stockNumber: number) {
     if (Number(stockNumber) in favoriteStore) {
       delete favoriteStore[stockNumber]
     }
@@ -68,7 +68,7 @@ export function useFavorite() {
     resultArray.forEach(({data}) => favoriteStore[data.car.stockNumber] = data.car)
   }, null, [idsToLoad])
 
-  function getFavorites() {
+  function getFavourites() {
     return Object.values(favoriteStore);
   }
 
@@ -76,5 +76,5 @@ export function useFavorite() {
     return stockNumber in favoriteStore;
   }
 
-  return {setFavorite, getFavorites, isFavourite, isFavoriteLoading: loadFavoritesState.isLoading}
+  return {setFavourite, getFavourites, isFavourite, isFavoriteLoading: loadFavoritesState.isLoading}
 }

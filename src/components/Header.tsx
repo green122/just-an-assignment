@@ -17,6 +17,10 @@ export const useStyles = makeStyles(() => ({
   toolbar: {
     justifyContent: "space-between"
   },
+  logo: {
+    width: 180,
+    height: "auto"
+  },
   link: {
     textDecoration: "none",
     color: colors.black,
@@ -34,7 +38,8 @@ export function Header() {
       <Toolbar className={classes.toolbar}>
         <Box ml={5}>
           <Link to="/">
-            <img src="https://static.auto1.com/@auto1/auto1-platform/4.83.0/img/logo.png" alt="Logo"/>
+            <img className={classes.logo} src="https://static.auto1.com/@auto1/auto1-platform/4.83.0/img/logo.png"
+                 alt="Logo"/>
           </Link>
         </Box>
         <Box>
